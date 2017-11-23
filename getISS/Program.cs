@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using ThoughtWorks.QRCode.Codec;
 using ThoughtWorks.QRCode.Codec.Data;
+using Copernicus.SSURL;
 
 namespace getISS
 {
@@ -30,9 +28,11 @@ namespace getISS
             {
                 QRCodeDecoder myDecoder = new QRCodeDecoder();
                 string mySSURL =  myDecoder.decode(new QRCodeBitmapImage(new Bitmap(Image.FromFile(fileName))));
-                mySSURL += "#" + fileShortFile[fileShortFile.Count() - 1].Replace(".png", "").Replace(".jpg", "");
-                Console.WriteLine(mySSURL);
+                string linkName = fileShortFile[fileShortFile.Count() - 1].Replace(".png", "").Replace(".jpg", "");
+                string[]  linkInfo = SSURL.Parse(mySSURL);
+
             }
+
             Console.ReadKey();
         }
     }
