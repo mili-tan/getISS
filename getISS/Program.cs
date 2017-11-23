@@ -15,13 +15,13 @@ namespace getISS
     {
         static void Main(string[] args)
         {
-            JArray configArray = new JArray();
+            JArray clientArray = new JArray();
             if (!Directory.Exists("./qrcode"))
             {
                 Directory.CreateDirectory("./qrcode");
             }
 
-            string myUrl = "";
+            string myUrl = "https://go.ishadowx.net/img/qr/usaxxoo.png";
             string[] fileShortFile = myUrl.Split('/');
             string fileName = string.Format(@".\qrcode\{0}", fileShortFile[fileShortFile.Count() - 1]);
 
@@ -42,8 +42,11 @@ namespace getISS
                 client.server = linkInfo[2];
                 client.server_port = Convert.ToInt32(linkInfo[3]);
                 client.timeout = 5;
-                configArray.Add(JObject.FromObject(client));
+                clientArray.Add(JObject.FromObject(client));
             }
+            JObject configs = new JObject();
+            configs["configs"] = clientArray;
+            Console.WriteLine(configs.ToString());
             Console.ReadKey();
         }
 
