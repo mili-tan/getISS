@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("getISS")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("getFreeSS")]
+[assembly: AssemblyDescription("getFreeSS")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("getISS")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyCompany("Plus1s Org & Chilling-Effect Org")]
+[assembly: AssemblyProduct("getFreeSS")]
+[assembly: AssemblyCopyright("Copyright © Plus1s Org & Chilling-Effect Org 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

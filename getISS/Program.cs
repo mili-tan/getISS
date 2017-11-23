@@ -20,7 +20,7 @@ namespace getISS
             {
                 Directory.CreateDirectory("./qrcode");
             }
-            string[] qrCodeURLs = File.ReadAllLines("./ssqrcodes.txt");
+            string[] qrCodeURLs = File.ReadAllLines("./list-ssqrcode.text");
 
             foreach (string item in qrCodeURLs)
             {
