@@ -57,9 +57,8 @@ namespace getISS
             if (File.Exists("./Shadowsocks.exe"))
             {
                 Process.Start("Shadowsocks.exe");
+                Process.Start("explorer.exe", "https://www.google.com/");
             }
-
-            Process.Start("explorer.exe", "https://www.google.com/");
         }
 
         class SSClientInfo
