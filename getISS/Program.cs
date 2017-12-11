@@ -51,12 +51,15 @@ namespace getISS
 
             JObject configs = new JObject();
             configs["configs"] = clientArray;
+            configs["enabled"] = true;
             File.WriteAllText("gui-config.json", configs.ToString());
 
             if (File.Exists("./Shadowsocks.exe"))
             {
                 Process.Start("Shadowsocks.exe");
             }
+
+            Process.Start("explorer.exe", "https://www.google.com/");
         }
 
         class SSClientInfo
