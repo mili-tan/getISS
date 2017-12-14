@@ -8,7 +8,7 @@ using ThoughtWorks.QRCode.Codec.Data;
 using Newtonsoft.Json.Linq;
 using Copernicus.SSURL;
 using System.Diagnostics;
-using static System.Net.WebClient;
+using System.IO.Compression;
 
 namespace getISS
 {
@@ -68,6 +68,16 @@ namespace getISS
                 //JArray assets = JArray.Parse(ssInfoJObj["assets"].ToString());
                 //JObject assets1 = JObject.Parse(assets[1].ToString());
                 //string dlURL = assets1["browser_download_url"].ToString();
+
+                WebClient myWebClient = new WebClient();
+                myWebClient.DownloadFile("https://github.com/shadowsocks/shadowsocks-windows/releases/download/4.0.6/Shadowsocks-4.0.6.zip", "./ss.zip");
+                ZipFile.ExtractToDirectory("./ss.zip", "./");
+                if (File.Exists("./Shadowsocks.exe"))
+                {
+                    Process.Start("Shadowsocks.exe");
+                    Process.Start("explorer.exe", "https://www.google.com/");
+                    File.Delete("./ss.zip");
+                }
             }
         }
 
