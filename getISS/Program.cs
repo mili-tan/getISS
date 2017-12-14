@@ -9,6 +9,7 @@ using Newtonsoft.Json.Linq;
 using Copernicus.SSURL;
 using System.Diagnostics;
 using System.IO.Compression;
+using System.Windows.Forms;
 
 namespace getISS
 {
@@ -16,6 +17,7 @@ namespace getISS
     {
         static void Main(string[] args)
         {
+            Application.EnableVisualStyles();
             JArray clientArray = new JArray();
             if (!Directory.Exists("./qrcode"))
             {
@@ -69,14 +71,17 @@ namespace getISS
                 //JObject assets1 = JObject.Parse(assets[1].ToString());
                 //string dlURL = assets1["browser_download_url"].ToString();
 
-                WebClient myWebClient = new WebClient();
-                myWebClient.DownloadFile("https://github.com/shadowsocks/shadowsocks-windows/releases/download/4.0.6/Shadowsocks-4.0.6.zip", "./ss.zip");
-                ZipFile.ExtractToDirectory("./ss.zip", "./");
-                if (File.Exists("./Shadowsocks.exe"))
+                if (MessageBox.Show("没有找到Shadowsocks客户端主程序,需要下载吗？\n\r下载可能需要数分钟的时间,请坐和放宽。", "没有找到Shadowsocks主程序", MessageBoxButtons.OKCancel,MessageBoxIcon.Information) == DialogResult.OK)
                 {
-                    Process.Start("Shadowsocks.exe");
-                    Process.Start("explorer.exe", "https://www.google.com/");
-                    File.Delete("./ss.zip");
+                    WebClient myWebClient = new WebClient();
+                    myWebClient.DownloadFile("https://github.com/shadowsocks/shadowsocks-windows/releases/download/4.0.6/Shadowsocks-4.0.6.zip", "./ss.zip");
+                    ZipFile.ExtractToDirectory("./ss.zip", "./");
+                    if (File.Exists("./Shadowsocks.exe"))
+                    {
+                        Process.Start("Shadowsocks.exe");
+                        Process.Start("explorer.exe", "https://www.google.com/");
+                        File.Delete("./ss.zip");
+                    }
                 }
             }
         }
