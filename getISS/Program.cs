@@ -23,16 +23,23 @@ namespace getISS
             {
                 Directory.CreateDirectory("./qrcode");
             }
+
+            WebClient myWebClient = new WebClient();
+
+            if (!File.Exists("./list-ssqrcode.text"))
+            {
+                myWebClient.DownloadFile("https://g-mi.gear.host/ss/ss.txt", "./list-ssqrcode.text");
+            }
+
             string[] qrCodeURLs = File.ReadAllLines("./list-ssqrcode.text");
 
             foreach (string item in qrCodeURLs)
             {
+                myWebClient.Headers["User-Agent"] = "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.2767.0 Safari/537.36";
                 string myUrl = item;
                 string[] fileShortFile = myUrl.Split('/');
                 string fileName = string.Format(@".\qrcode\{0}", fileShortFile[fileShortFile.Count() - 1]);
 
-                WebClient myWebClient = new WebClient();
-                myWebClient.Headers["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:57.0) Gecko/20100101 Firefox/57.0";
                 myWebClient.DownloadFile(myUrl, fileName);
 
                 if (File.Exists(fileName))
@@ -65,8 +72,7 @@ namespace getISS
             }
             else
             {
-                WebClient myWebClient = new WebClient();
-                myWebClient.Headers["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:57.0) Gecko/20100101 Firefox/57.0";
+                myWebClient.Headers["User-Agent"] = "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.2767.0 Safari/537.36";
                 string ssInfo = myWebClient.DownloadString("https://api.github.com/repos/shadowsocks/shadowsocks-windows/releases/latest");
                 JObject ssInfoJObj = JObject.Parse(ssInfo);
                 JArray assets = JArray.Parse(ssInfoJObj["assets"].ToString());
@@ -74,7 +80,7 @@ namespace getISS
                 string dlURL = assets1["browser_download_url"].ToString();
 
 
-                if (MessageBox.Show("没有找到Shadowsocks客户端主程序,需要下载吗？\n\r下载可能需要数分钟的时间,请坐和放宽。", "没有找到Shadowsocks主程序", MessageBoxButtons.OKCancel,MessageBoxIcon.Information) == DialogResult.OK)
+                if (MessageBox.Show("没有找到Shadowsocks客户端主程序,需要下载吗？\n\r下载可能需要数分钟的时间,请坐和放宽。"+dlURL, "没有找到Shadowsocks主程序", MessageBoxButtons.OKCancel,MessageBoxIcon.Information) == DialogResult.OK)
                 {
                     myWebClient.DownloadFile(dlURL, "./ss.zip");
                     ZipFile.ExtractToDirectory("./ss.zip", "./");
