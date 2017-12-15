@@ -19,8 +19,6 @@ namespace getISS
         {
             Application.EnableVisualStyles();
             JArray clientArray = new JArray();
-            WebClient myWebClient = new WebClient();
-            myWebClient.Headers["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:57.0) Gecko/20100101 Firefox/57.0";
             if (!Directory.Exists("./qrcode"))
             {
                 Directory.CreateDirectory("./qrcode");
@@ -33,6 +31,8 @@ namespace getISS
                 string[] fileShortFile = myUrl.Split('/');
                 string fileName = string.Format(@".\qrcode\{0}", fileShortFile[fileShortFile.Count() - 1]);
 
+                WebClient myWebClient = new WebClient();
+                myWebClient.Headers["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:57.0) Gecko/20100101 Firefox/57.0";
                 myWebClient.DownloadFile(myUrl, fileName);
 
                 if (File.Exists(fileName))
@@ -65,11 +65,14 @@ namespace getISS
             }
             else
             {
+                WebClient myWebClient = new WebClient();
+                myWebClient.Headers["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:57.0) Gecko/20100101 Firefox/57.0";
                 string ssInfo = myWebClient.DownloadString("https://api.github.com/repos/shadowsocks/shadowsocks-windows/releases/latest");
                 JObject ssInfoJObj = JObject.Parse(ssInfo);
                 JArray assets = JArray.Parse(ssInfoJObj["assets"].ToString());
                 JObject assets1 = JObject.Parse(assets[0].ToString());
                 string dlURL = assets1["browser_download_url"].ToString();
+
 
                 if (MessageBox.Show("没有找到Shadowsocks客户端主程序,需要下载吗？\n\r下载可能需要数分钟的时间,请坐和放宽。", "没有找到Shadowsocks主程序", MessageBoxButtons.OKCancel,MessageBoxIcon.Information) == DialogResult.OK)
                 {
