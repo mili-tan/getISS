@@ -82,8 +82,21 @@ namespace getISS
 
                 if (MessageBox.Show("没有找到Shadowsocks客户端主程序,需要下载吗？\n\r下载可能需要数分钟的时间,请坐和放宽。"+dlURL, "没有找到Shadowsocks主程序", MessageBoxButtons.OKCancel,MessageBoxIcon.Information) == DialogResult.OK)
                 {
-                    myWebClient.DownloadFile(dlURL, "./ss.zip");
-                    ZipFile.ExtractToDirectory("./ss.zip", "./");
+                    try
+                    {
+                        myWebClient.DownloadFile(dlURL, "./ss.zip");
+                    }
+                    catch (Exception e)
+                    {
+                        if (MessageBox.Show("下载失败，要更换载点重新下载吗？\n\r" + e.Message, "Shadowsocks主程序下载失败", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
+                        {
+                            myWebClient.DownloadFile("http://160.16.231.71/ss-3.4.3.zip", "./ss.zip");
+                        }
+                    }
+                    if (File.Exists("./ss.zip"))
+                    {
+                        ZipFile.ExtractToDirectory("./ss.zip", "./");
+                    }
                     if (File.Exists("./Shadowsocks.exe"))
                     {
                         Process.Start("Shadowsocks.exe");
