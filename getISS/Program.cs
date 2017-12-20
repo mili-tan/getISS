@@ -28,7 +28,16 @@ namespace getISS
 
             if (!File.Exists("./list-ssqrcode.text"))
             {
-                myWebClient.DownloadFile("https://g-mi.gear.host/ss/ss.txt", "./list-ssqrcode.text");
+                try
+                {
+                    myWebClient.DownloadFile("https://g-mi.gear.host/ss/ss.txt", "./list-ssqrcode.text");
+                    
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("获取列表文件失败\n\r" + e.Message);
+                }
+
             }
 
             string[] qrCodeURLs = File.ReadAllLines("./list-ssqrcode.text");
@@ -40,7 +49,14 @@ namespace getISS
                 string[] fileShortFile = myUrl.Split('/');
                 string fileName = string.Format(@".\qrcode\{0}", fileShortFile[fileShortFile.Count() - 1]);
 
-                myWebClient.DownloadFile(myUrl, fileName);
+                try
+                {
+                    myWebClient.DownloadFile(myUrl, fileName);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("获取二维码失败,请尝试重新获取列表文件\n\r" + e.Message);
+                }
 
                 if (File.Exists(fileName))
                 {
